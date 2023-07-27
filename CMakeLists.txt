@@ -28,7 +28,10 @@ set(LIB_PUBLIC_HEADERS flecs/flecs.h)
 file(GLOB_RECURSE INC flecs/include/*.h flecs/include/*.hpp)
 file(GLOB_RECURSE SRC flecs/src/*.c)
 
-set(LIB_SOURCE_FILES ${SRC} ${INC})
+set(LIB_SOURCE_FILES 
+    ${SRC} 
+    ${INC}
+    flecs_pinvoke.c)
 set(LIB_ADDON_FLAGS "")
 
 if (FLECS_ADDONS)
