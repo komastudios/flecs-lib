@@ -13,6 +13,19 @@ option(BUILD_SHARED "Build shared library" ON)
 
 option(USE_MSVC_STATIC_RUNTIME "Use MSVC static runtime" OFF)
 
+set(FLECS_ADDONS "" CACHE STRING "Semicolon-separated list of addons to include in the build. Leave empty to build all addons")
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
+    set(CMAKE_C_FLAGS_RELWITHDEBINFO "-Oz -g -DNDEBUG")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Oz -g -DNDEBUG")
+    set(CMAKE_C_FLAGS_RELEASE "-Oz -DNDEBUG")
+    set(CMAKE_CXX_FLAGS_RELEASE "-Oz -DNDEBUG")
+
+    add_compile_options(-fsigned-char)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+    set(BUILD_SHARED OFF)
+endif()
+
 if(CMAKE_C_COMPILER_ID MATCHES "MSVC")
     if(USE_MSVC_STATIC_RUNTIME)
         message(STATUS "Using MSVC static runtime")

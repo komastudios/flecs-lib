@@ -9,6 +9,7 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  FLECS_ADDONS: "Cpp;Module;System;Pipeline"
 
 jobs:
   build:
@@ -39,6 +40,7 @@ jobs:
       run: |
         cmake -S . -B build \
           -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+          -DFLECS_ADDONS=${{env.FLECS_ADDONS}} \
           -DANDROID_PLATFORM=${{ matrix.platform.android_platform }} \
           -DANDROID_ABI=${{ matrix.platform.android_abi }} \
           -DANDROID_STL=none \
