@@ -66,6 +66,7 @@ endif()
 
 function(add_flecs_library TARGET_NAME LIB_TYPE)
     add_library(${TARGET_NAME} ${LIB_TYPE} ${LIB_SOURCE_FILES})
+    set_property(TARGET ${TARGET_NAME} PROPERTY C_VISIBILITY_PRESET hidden)
     
     target_include_directories(${TARGET_NAME} PRIVATE flecs/include)
     
