@@ -1,0 +1,57 @@
+name: android
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    name: ${{ matrix.platform.name }}
+    runs-on: ubuntu-22.04
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:  #[ubuntu-22.04, macos-12, windows-2022]
+          - { name: Android (arm64-v8a), artifact: "android-arm64", android_abi: "arm64-v8a", android_platform: 16 }
+          - { name: Android (armeabi-v7a), artifact: "android-armv7", android_abi: "armeabi-v7a", android_platform: 16, flags: "-DANDROID_ARM_NEON=ON" }
+          # - { name: Windows, os: windows-2022, shell: pwsh, flags: "-A x64" }
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: nttld/setup-ndk@v1
+      id: setup_ndk
+      with:
+        ndk-version: r21d
+    
+    - name: Configure CMake
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: |
+        cmake -S . -B build \
+          -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+          -DANDROID_PLATFORM=${{ matrix.platform.android_platform }} \
+          -DANDROID_ABI=${{ matrix.platform.android_abi }} \
+          -DANDROID_STL=none \
+          -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup_ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake \
+          ${{ matrix.platform.flags }}
+
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build build --config ${{env.BUILD_TYPE}}
+    
+    - name: Install
+      run: cmake --install build --config ${{env.BUILD_TYPE}} --prefix dist
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.platform.artifact }}
+        path: dist
