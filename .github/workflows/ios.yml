@@ -25,7 +25,7 @@ jobs:
       run: |
         cmake -S . -B build \
         -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-        -DFLECS_ADDONS=${{env.FLECS_ADDONS}} \
+        "-DFLECS_ADDONS=${{env.FLECS_ADDONS}}" \
         -GXcode \
         -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/dist \
         -DCMAKE_SYSTEM_NAME=iOS \
