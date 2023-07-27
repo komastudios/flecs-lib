@@ -8,7 +8,7 @@ on:
 
 env:
   BUILD_TYPE: Release
-  FLECS_ADDONS: "Cpp;Module;System;Pipeline"
+  FLECS_ADDONS: "Module;System;Pipeline"
 
 jobs:
   build:
