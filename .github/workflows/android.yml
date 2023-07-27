@@ -9,7 +9,7 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  FLECS_ADDONS: "Module;System;Pipeline;Timer;Meta;Meta_C;Units;Expr;JSON;Doc;Coredoc;Http;Rest;Parser;Plecs;Rules;Snapshot;Stats;Monitor;Metrics;Log;Journal;App"
+  FLECS_ADDONS: "Module;System;Pipeline;Meta;Meta_C;Expr;JSON;Doc;Coredoc;Rules;Snapshot"
 
 jobs:
   build:
