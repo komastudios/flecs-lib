@@ -90,6 +90,3 @@ install(FILES
 if(BUILD_SHARED)
     add_flecs_library(flecs SHARED)
 endif()
-
-target_include_directories(flecs-static PUBLIC flecs)
-add_library(flecs::flecs-static ALIAS flecs-static)
